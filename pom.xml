@@ -81,6 +81,19 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>11.10.2</version> <!-- Use latest version -->
+                <configuration>
+                    <url>jdbc:mysql://localhost:3306/school_management</url>
+                    <user>root</user>
+                    <password>QPwoALsk_1290</password>
+                    <schemas>
+                        <schema>school_management</schema>
+                    </schemas>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
