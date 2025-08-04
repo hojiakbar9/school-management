@@ -28,18 +28,19 @@ public class Student {
     private String lastName;
 
     @Column(name = "gender")
+    @Enumerated(EnumType.STRING)
     private GenderType gender;
 
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JoinColumn(name = "parent_id")
     private Parent parent;
 
-    @ColumnDefault("1")
-    @Column(name = "active")
+
+    @Column(name = "active", insertable = false, updatable = false)
     private Boolean active;
 
     @OneToMany(mappedBy = "student")
@@ -51,4 +52,7 @@ public class Student {
     @ManyToMany
     private Set<Class> classes = new LinkedHashSet<>();
 
+    public boolean hasParent(){
+        return parent != null;
+    }
 }
