@@ -1,7 +1,3 @@
-CREATE DATABASE IF NOT EXISTS school_management DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE school_management;
-
-
 -- -----------------------------------------------------
 -- Table: users
 -- -----------------------------------------------------
@@ -21,18 +17,17 @@ CREATE TABLE users (
 -- Table: parents
 -- -----------------------------------------------------
 CREATE TABLE parents (
-                         id INT AUTO_INCREMENT PRIMARY KEY,
-                         user_id INT NOT NULL UNIQUE,
-                         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+
+                         id INT PRIMARY KEY ,
+                         FOREIGN KEY (id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- -----------------------------------------------------
 -- Table: teachers
 -- -----------------------------------------------------
 CREATE TABLE teachers (
-                          id INT AUTO_INCREMENT PRIMARY KEY,
-                          user_id INT NOT NULL UNIQUE,
-                          FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+                          id INT PRIMARY KEY,
+                          FOREIGN KEY (id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- -----------------------------------------------------
