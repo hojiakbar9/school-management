@@ -6,6 +6,7 @@ import org.marburgermoschee.schoolmanagement.dtos.RegisterStudentRequest;
 import org.marburgermoschee.schoolmanagement.dtos.StudentDto;
 import org.marburgermoschee.schoolmanagement.entities.Parent;
 import org.marburgermoschee.schoolmanagement.entities.Student;
+import org.marburgermoschee.schoolmanagement.exceptions.StudentNotFoundException;
 import org.marburgermoschee.schoolmanagement.exceptions.UserNotFoundException;
 import org.marburgermoschee.schoolmanagement.mappers.StudentMapper;
 import org.marburgermoschee.schoolmanagement.repositories.ParentRepository;
@@ -30,13 +31,20 @@ public class StudentController {
         student.setParent(parent);
         studentRepository.save(student);
         return studentMapper.toDto(student);
-
     }
 
     @GetMapping
     public List<StudentDto>getAllStudents(){
         List<Student> students = studentRepository.getAll();
         return students.stream().map(studentMapper::toDto).toList();
+    }
+
+    @GetMapping("/{id}")
+    public StudentDto getStudent(@PathVariable Integer id){
+        Student student = studentRepository
+                .getStudent(id)
+                .orElseThrow(StudentNotFoundException::new);
+        return studentMapper.toDto(student);
     }
 
 }
