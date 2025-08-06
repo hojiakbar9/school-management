@@ -3,6 +3,7 @@ package org.marburgermoschee.schoolmanagement.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -14,6 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@ToString
 @Table(name = "students")
 public class Student {
     @Id
@@ -44,9 +46,11 @@ public class Student {
     private Boolean active;
 
     @OneToMany(mappedBy = "student")
+    @ToString.Exclude
     private Set<Attendance> attendances = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "student")
+    @ToString.Exclude
     private Set<Payment> payments = new LinkedHashSet<>();
 
     @ManyToMany
@@ -55,6 +59,7 @@ public class Student {
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name="class_id")
     )
+    @ToString.Exclude
     private Set<Class> classes = new LinkedHashSet<>();
 
     public boolean hasParent(){

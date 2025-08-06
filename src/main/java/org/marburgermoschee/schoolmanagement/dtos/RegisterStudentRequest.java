@@ -1,14 +1,12 @@
 package org.marburgermoschee.schoolmanagement.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.marburgermoschee.schoolmanagement.entities.GenderType;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.marburgermoschee.schoolmanagement.validation.MinAge;
 
 import java.time.LocalDate;
 
@@ -25,11 +23,13 @@ public class RegisterStudentRequest {
     @NotNull(message = "gender is required")
     private GenderType gender;
 
+    @MinAge(value = 5)
     @NotNull(message = "date is required")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
+
+    @NotNull(message = "Parent id is required")
     private Integer parentId;
-    
     private Boolean active = Boolean.TRUE;
 
 }

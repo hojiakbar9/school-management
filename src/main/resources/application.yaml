@@ -5,5 +5,8 @@ spring:
     url: jdbc:mysql://localhost:3306/school_management?createDatabaseIfNotExist=true
     username: root
     password: QPwoALsk_1290
+  jackson:
+    deserialization:
+      accept-empty-string-as-null-object: true
   jpa:
     show-sql: true
