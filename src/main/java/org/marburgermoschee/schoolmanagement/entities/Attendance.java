@@ -26,8 +26,8 @@ public class Attendance {
     @JoinColumn(name = "student_id")
     private Student student;
 
-    @Lob
     @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private AttendanceStatus status;
 
 }

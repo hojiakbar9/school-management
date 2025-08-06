@@ -41,10 +41,6 @@ public class User {
     @Column(name = "updated_at",  insertable = false, updatable = false)
     private Instant updatedAt;
 
-    @OneToOne(mappedBy = "user")
-    private Parent parent;
 
-    @OneToOne(mappedBy = "user")
-    private Teacher teacher;
 
 }

@@ -18,6 +18,7 @@ public class Class {
     private Integer id;
 
     @Column(name = "type")
+    @Enumerated(EnumType.STRING)
     private ClassType type;
 
     @Column(name = "level")

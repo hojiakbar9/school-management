@@ -40,7 +40,7 @@ public class Student {
     private Parent parent;
 
 
-    @Column(name = "active", insertable = false, updatable = false)
+    @Column(name = "active")
     private Boolean active;
 
     @OneToMany(mappedBy = "student")
@@ -50,6 +50,11 @@ public class Student {
     private Set<Payment> payments = new LinkedHashSet<>();
 
     @ManyToMany
+    @JoinTable(
+            name="students_classes",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name="class_id")
+    )
     private Set<Class> classes = new LinkedHashSet<>();
 
     public boolean hasParent(){

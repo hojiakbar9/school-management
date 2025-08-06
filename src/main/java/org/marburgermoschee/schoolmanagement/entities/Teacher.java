@@ -19,6 +19,7 @@ public class Teacher {
     private Integer id;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
     @JoinColumn(name = "id")
     private User user;
 

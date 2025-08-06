@@ -1,4 +1,4 @@
-package org.marburgermoschee.schoolmanagement.controllers;
+package org.marburgermoschee.schoolmanagement.repositories;
 
 import org.marburgermoschee.schoolmanagement.entities.Parent;
 import org.springframework.data.jpa.repository.JpaRepository;

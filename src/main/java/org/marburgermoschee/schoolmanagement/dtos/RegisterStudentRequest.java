@@ -29,4 +29,7 @@ public class RegisterStudentRequest {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
     private Integer parentId;
+    
+    private Boolean active = Boolean.TRUE;
+
 }

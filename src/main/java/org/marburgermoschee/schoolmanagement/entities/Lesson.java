@@ -3,8 +3,6 @@ package org.marburgermoschee.schoolmanagement.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
@@ -20,7 +18,7 @@ public class Lesson {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "class_id")
     private Class classField;
 
