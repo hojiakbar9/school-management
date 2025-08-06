@@ -14,7 +14,7 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(StudentNotFoundException.class)
-    public ResponseEntity<ErrorDto> handleStudentNotFound(StudentNotFoundException ex) {
+    public ResponseEntity<ErrorDto> handleStudentNotFound() {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorDto("Student not found"));
     }
