@@ -3,6 +3,7 @@ package org.marburgermoschee.schoolmanagement.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -10,6 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@ToString
 @Table(name = "parents")
 public class Parent {
     @Id
@@ -19,9 +21,11 @@ public class Parent {
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     @JoinColumn(name = "id")
+    @ToString.Exclude
     private User user;
 
     @OneToMany(mappedBy = "parent")
+    @ToString.Exclude
     private Set<Student> students = new LinkedHashSet<>();
 
 }

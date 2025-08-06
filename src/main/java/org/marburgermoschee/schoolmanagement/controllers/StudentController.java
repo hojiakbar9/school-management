@@ -47,4 +47,16 @@ public class StudentController {
         return studentMapper.toDto(student);
     }
 
+    @PutMapping("/{id}")
+    public StudentDto updateStudent(
+            @Valid @RequestBody RegisterStudentRequest request,
+            @PathVariable Integer id) {
+        Student student = studentRepository.getStudent(id).orElseThrow(StudentNotFoundException::new);
+        var parent =  parentRepository.findById(request.getParentId())
+                .orElseThrow(() ->  new UserNotFoundException("Parent not found"));
+        Student updated = studentMapper.update(request, student);
+        updated.setParent(parent);
+        return studentMapper.toDto(studentRepository.save(updated));
+    }
+
 }
