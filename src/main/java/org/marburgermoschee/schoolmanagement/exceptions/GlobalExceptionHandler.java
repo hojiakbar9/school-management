@@ -1,6 +1,5 @@
 package org.marburgermoschee.schoolmanagement.exceptions;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import org.marburgermoschee.schoolmanagement.dtos.ErrorDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +7,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 
