@@ -59,4 +59,10 @@ public class StudentController {
         return studentMapper.toDto(studentRepository.save(updated));
     }
 
+    @DeleteMapping("/{id}")
+    public void deleteStudent(@PathVariable Integer id) {
+        Student student = studentRepository.findById(id).orElseThrow(StudentNotFoundException::new);
+        studentRepository.delete(student);
+    }
+
 }
