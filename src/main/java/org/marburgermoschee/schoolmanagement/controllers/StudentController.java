@@ -19,7 +19,6 @@ public class StudentController {
 
 
     @GetMapping
-    @Transactional
     public List<StudentDto>getAllStudents(){
         List<Student> students = studentRepository.getAll();
         return students.stream().map(studentMapper::toDto).toList();
