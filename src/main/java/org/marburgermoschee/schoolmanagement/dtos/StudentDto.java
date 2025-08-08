@@ -15,7 +15,5 @@ public class StudentDto {
     private LocalDate dateOfBirth;
     private ParentDto parentDto;
     private Boolean active;
-    private Set<AttendanceDto> attendances = new HashSet<>();
-    private Set<PaymentDto> payments =  new HashSet<>();
-    private Set<StudentClassDto>  classes = new  HashSet<>();
+
 }

@@ -35,14 +35,14 @@ public class StudentController {
 
     @GetMapping
     public List<StudentDto>getAllStudents(){
-        List<Student> students = studentRepository.getAll();
+        List<Student> students = studentRepository.getAllWithParents();
         return students.stream().map(studentMapper::toDto).toList();
     }
 
     @GetMapping("/{id}")
     public StudentDto getStudent(@PathVariable Integer id){
         Student student = studentRepository
-                .getStudent(id)
+                .getStudentWithParent(id)
                 .orElseThrow(StudentNotFoundException::new);
         return studentMapper.toDto(student);
     }
@@ -51,7 +51,7 @@ public class StudentController {
     public StudentDto updateStudent(
             @Valid @RequestBody RegisterStudentRequest request,
             @PathVariable Integer id) {
-        Student student = studentRepository.getStudent(id).orElseThrow(StudentNotFoundException::new);
+        Student student = studentRepository.getStudentWithParent(id).orElseThrow(StudentNotFoundException::new);
         var parent =  parentRepository.findById(request.getParentId())
                 .orElseThrow(() ->  new UserNotFoundException("Parent not found"));
         Student updated = studentMapper.update(request, student);
