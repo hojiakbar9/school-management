@@ -1,6 +1,5 @@
 package org.marburgermoschee.schoolmanagement.controllers;
 
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.marburgermoschee.schoolmanagement.dtos.*;
