@@ -3,14 +3,17 @@ package org.marburgermoschee.schoolmanagement.controllers;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.marburgermoschee.schoolmanagement.dtos.AttendanceDto;
+import org.marburgermoschee.schoolmanagement.dtos.PaymentDto;
 import org.marburgermoschee.schoolmanagement.dtos.RegisterStudentRequest;
 import org.marburgermoschee.schoolmanagement.dtos.StudentDto;
 import org.marburgermoschee.schoolmanagement.entities.Attendance;
 import org.marburgermoschee.schoolmanagement.entities.Parent;
+import org.marburgermoschee.schoolmanagement.entities.Payment;
 import org.marburgermoschee.schoolmanagement.entities.Student;
 import org.marburgermoschee.schoolmanagement.exceptions.StudentNotFoundException;
 import org.marburgermoschee.schoolmanagement.exceptions.UserNotFoundException;
 import org.marburgermoschee.schoolmanagement.mappers.AttendanceMapper;
+import org.marburgermoschee.schoolmanagement.mappers.PaymentMapper;
 import org.marburgermoschee.schoolmanagement.mappers.StudentMapper;
 import org.marburgermoschee.schoolmanagement.repositories.ParentRepository;
 import org.marburgermoschee.schoolmanagement.repositories.StudentRepository;
@@ -27,7 +30,7 @@ public class StudentController {
     private final StudentMapper studentMapper;
     private final ParentRepository parentRepository;
     private final AttendanceMapper attendanceMapper;
-
+    private final PaymentMapper paymentsMapper;
     @PostMapping
     public StudentDto register(@Valid @RequestBody RegisterStudentRequest request) {
         Student student = studentMapper.toEntity(request);
@@ -57,6 +60,12 @@ public class StudentController {
         Student student = studentRepository.findById(id).orElseThrow(StudentNotFoundException::new);
         Set<Attendance> attendances = student.getAttendances();
         return attendances.stream().map(attendanceMapper::toDto).toList();
+    }
+    @GetMapping("{id}/payments")
+    public List<PaymentDto> getPayments(@PathVariable Integer id){
+        Student student = studentRepository.findById(id).orElseThrow(StudentNotFoundException::new);
+        Set<Payment> payments = student.getPayments();
+        return payments.stream().map(paymentsMapper::toDto).toList();
     }
     @PutMapping("/{id}")
     public StudentDto updateStudent(
