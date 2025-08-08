@@ -52,7 +52,7 @@ public class StudentController {
         return studentMapper.toDto(student);
     }
 
-    @GetMapping("/{id}/attendance")
+    @GetMapping("/{id}/attendances")
     public List<AttendanceDto> getAttendances(@PathVariable Integer id){
         Student student = studentRepository.findById(id).orElseThrow(StudentNotFoundException::new);
         Set<Attendance> attendances = student.getAttendances();
