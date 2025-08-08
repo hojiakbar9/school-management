@@ -1,11 +1,9 @@
 package org.marburgermoschee.schoolmanagement.controllers;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.marburgermoschee.schoolmanagement.dtos.AttendanceDto;
-import org.marburgermoschee.schoolmanagement.dtos.PaymentDto;
-import org.marburgermoschee.schoolmanagement.dtos.RegisterStudentRequest;
-import org.marburgermoschee.schoolmanagement.dtos.StudentDto;
+import org.marburgermoschee.schoolmanagement.dtos.*;
 import org.marburgermoschee.schoolmanagement.entities.Attendance;
 import org.marburgermoschee.schoolmanagement.entities.Parent;
 import org.marburgermoschee.schoolmanagement.entities.Payment;
@@ -39,6 +37,14 @@ public class StudentController {
         student.setParent(parent);
         studentRepository.save(student);
         return studentMapper.toDto(student);
+    }
+    @PostMapping("/{id}/payments")
+    public void recordNewPayment(
+            @PathVariable Integer id,
+            @Valid @RequestBody RecordPaymentRequest request) {
+        Student student = studentRepository.findById(id).orElseThrow(StudentNotFoundException::new);
+        student.addPayment(request.getAmount(), request.getPaymentDate());
+        studentRepository.save(student);
     }
 
     @GetMapping

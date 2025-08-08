@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -45,7 +46,7 @@ public class Student {
     @ToString.Exclude
     private Set<Attendance> attendances = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @ToString.Exclude
     private Set<Payment> payments = new LinkedHashSet<>();
 
@@ -60,5 +61,12 @@ public class Student {
 
     public boolean hasParent(){
         return parent != null;
+    }
+    public void addPayment(BigDecimal amount, LocalDate date){
+        Payment payment = new Payment();
+        payment.setStudent(this);
+        payment.setAmount(amount);
+        payment.setPaymentDate(date);
+        payments.add(payment);
     }
 }
