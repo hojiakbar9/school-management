@@ -9,6 +9,7 @@ import org.marburgermoschee.schoolmanagement.entities.Parent;
 import org.marburgermoschee.schoolmanagement.entities.Payment;
 import org.marburgermoschee.schoolmanagement.entities.Student;
 import org.marburgermoschee.schoolmanagement.exceptions.EntityNotFoundException;
+import org.marburgermoschee.schoolmanagement.exceptions.StateConflictException;
 import org.marburgermoschee.schoolmanagement.mappers.AttendanceMapper;
 import org.marburgermoschee.schoolmanagement.mappers.ClassMapper;
 import org.marburgermoschee.schoolmanagement.mappers.PaymentMapper;
@@ -115,6 +116,16 @@ public class StudentController {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Student not found"));
         studentRepository.delete(student);
+    }
+    @DeleteMapping("/{id}/classes/{classId}")
+    public void unenroll(@PathVariable Integer id, @PathVariable Integer classId) {
+        Student student = studentRepository.getStudentWithEnrolledClasses(id).
+                orElseThrow(() -> new EntityNotFoundException("Student not found"));
+        Class cl = classRepository.findById(classId).orElseThrow(() -> new EntityNotFoundException("Class not found"));
+        if(!student.getClasses().contains(cl))
+            throw new StateConflictException("Student is not enrolled in the class");
+        student.getClasses().remove(cl);
+        studentRepository.save(student);
     }
 
 

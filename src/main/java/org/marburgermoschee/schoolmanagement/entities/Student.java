@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.marburgermoschee.schoolmanagement.exceptions.StudentAlreadyEnrolledException;
+import org.marburgermoschee.schoolmanagement.exceptions.StateConflictException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -72,7 +72,7 @@ public class Student {
     }
     public void enroll(Class cl) {
         if(classes.contains(cl))
-            throw new StudentAlreadyEnrolledException();
+            throw new StateConflictException("Student already enrolled");
         classes.add(cl);
     }
 }
