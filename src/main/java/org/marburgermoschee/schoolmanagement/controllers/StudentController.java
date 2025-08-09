@@ -8,8 +8,7 @@ import org.marburgermoschee.schoolmanagement.entities.Class;
 import org.marburgermoschee.schoolmanagement.entities.Parent;
 import org.marburgermoschee.schoolmanagement.entities.Payment;
 import org.marburgermoschee.schoolmanagement.entities.Student;
-import org.marburgermoschee.schoolmanagement.exceptions.StudentNotFoundException;
-import org.marburgermoschee.schoolmanagement.exceptions.UserNotFoundException;
+import org.marburgermoschee.schoolmanagement.exceptions.EntityNotFoundException;
 import org.marburgermoschee.schoolmanagement.mappers.AttendanceMapper;
 import org.marburgermoschee.schoolmanagement.mappers.ClassMapper;
 import org.marburgermoschee.schoolmanagement.mappers.PaymentMapper;
@@ -31,12 +30,13 @@ public class StudentController {
     private final AttendanceMapper attendanceMapper;
     private final PaymentMapper paymentsMapper;
     private final ClassMapper classMapper;
+    private final ClassRepository classRepository;
 
     @PostMapping
     public StudentDto register(@Valid @RequestBody RegisterStudentRequest request) {
         Student student = studentMapper.toEntity(request);
-        Parent parent = parentRepository.findById(request.getParentId()).orElseThrow(
-                () -> new UserNotFoundException("Parent not found"));
+        Parent parent = parentRepository.findById(request.getParentId())
+                .orElseThrow(() -> new EntityNotFoundException("Parent not found"));
         student.setParent(parent);
         studentRepository.save(student);
         return studentMapper.toDto(student);
@@ -45,10 +45,21 @@ public class StudentController {
     public void recordNewPayment(
             @PathVariable Integer id,
             @Valid @RequestBody RecordPaymentRequest request) {
-        Student student = studentRepository.findById(id).orElseThrow(StudentNotFoundException::new);
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
         student.addPayment(request.getAmount(), request.getPaymentDate());
         studentRepository.save(student);
     }
+    @PostMapping("/{id}/classes/{classId}")
+    public void enroll(@PathVariable Integer id, @PathVariable Integer classId) {
+        Student student = studentRepository.getStudentWithEnrolledClasses(id).
+                orElseThrow(() -> new EntityNotFoundException("Student not found"));
+        Class cl = classRepository.findById(classId).orElseThrow(() -> new EntityNotFoundException("Class not found"));
+        student.enroll(cl);
+        studentRepository.save(student);
+    }
+
+
 
     @GetMapping
     public List<StudentDto>getAllStudents(){
@@ -60,26 +71,29 @@ public class StudentController {
     public StudentDto getStudent(@PathVariable Integer id){
         Student student = studentRepository
                 .getStudentWithParent(id)
-                .orElseThrow(StudentNotFoundException::new);
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
         return studentMapper.toDto(student);
     }
 
     @GetMapping("/{id}/attendances")
     public List<AttendanceDto> getAttendances(@PathVariable Integer id){
-        Student student = studentRepository.findById(id).orElseThrow(StudentNotFoundException::new);
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
         Set<Attendance> attendances = student.getAttendances();
         return attendances.stream().map(attendanceMapper::toDto).toList();
     }
     @GetMapping("{id}/payments")
     public List<PaymentDto> getPayments(@PathVariable Integer id){
-        Student student = studentRepository.findById(id).orElseThrow(StudentNotFoundException::new);
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
         Set<Payment> payments = student.getPayments();
         return payments.stream().map(paymentsMapper::toDto).toList();
     }
 
     @GetMapping("/{id}/classes")
     public List<ClassDto> getEnrolledClasses(@PathVariable Integer id){
-        Student student = studentRepository.findById(id).orElseThrow(StudentNotFoundException::new);
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
         Set<Class> classes = student.getClasses();
         return classes.stream().map(classMapper::toDto).toList();
     }
@@ -87,9 +101,10 @@ public class StudentController {
     public StudentDto updateStudent(
             @Valid @RequestBody RegisterStudentRequest request,
             @PathVariable Integer id) {
-        Student student = studentRepository.getStudentWithParent(id).orElseThrow(StudentNotFoundException::new);
+        Student student = studentRepository.getStudentWithParent(id)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
         var parent =  parentRepository.findById(request.getParentId())
-                .orElseThrow(() ->  new UserNotFoundException("Parent not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Parent not found"));
         Student updated = studentMapper.update(request, student);
         updated.setParent(parent);
         return studentMapper.toDto(studentRepository.save(updated));
@@ -97,7 +112,8 @@ public class StudentController {
 
     @DeleteMapping("/{id}")
     public void deleteStudent(@PathVariable Integer id) {
-        Student student = studentRepository.findById(id).orElseThrow(StudentNotFoundException::new);
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
         studentRepository.delete(student);
     }
 

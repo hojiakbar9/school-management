@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.marburgermoschee.schoolmanagement.exceptions.StudentAlreadyEnrolledException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -50,7 +51,7 @@ public class Student {
     @ToString.Exclude
     private Set<Payment> payments = new LinkedHashSet<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name="students_classes",
             joinColumns = @JoinColumn(name = "student_id"),
@@ -68,5 +69,10 @@ public class Student {
         payment.setAmount(amount);
         payment.setPaymentDate(date);
         payments.add(payment);
+    }
+    public void enroll(Class cl) {
+        if(classes.contains(cl))
+            throw new StudentAlreadyEnrolledException();
+        classes.add(cl);
     }
 }

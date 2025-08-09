@@ -18,6 +18,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorDto(ex.getMessage()));
     }
+    @ExceptionHandler(StudentAlreadyEnrolledException.class)
+    public ResponseEntity<ErrorDto> handleStudentAlreadyEnrolled() {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new ErrorDto("Student Already Enrolled"));
+    }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleException(
             MethodArgumentNotValidException exception)

@@ -13,7 +13,12 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
   @EntityGraph(attributePaths = "parent.user")
   @Query("SELECT s FROM Student  s")
   List<Student> getAllWithParents();
+
   @EntityGraph(attributePaths = "parent.user")
   @Query("SELECT s FROM Student  s WHERE s.id=:id")
   Optional<Student> getStudentWithParent(@Param("id") Integer id);
+
+  @EntityGraph(attributePaths = "classes")
+  @Query("SELECT s FROM Student  s WHERE s.id=:id")
+  Optional<Student> getStudentWithEnrolledClasses(@Param("id") Integer id);
 }
