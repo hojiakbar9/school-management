@@ -4,12 +4,14 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.marburgermoschee.schoolmanagement.dtos.*;
 import org.marburgermoschee.schoolmanagement.entities.Attendance;
+import org.marburgermoschee.schoolmanagement.entities.Class;
 import org.marburgermoschee.schoolmanagement.entities.Parent;
 import org.marburgermoschee.schoolmanagement.entities.Payment;
 import org.marburgermoschee.schoolmanagement.entities.Student;
 import org.marburgermoschee.schoolmanagement.exceptions.StudentNotFoundException;
 import org.marburgermoschee.schoolmanagement.exceptions.UserNotFoundException;
 import org.marburgermoschee.schoolmanagement.mappers.AttendanceMapper;
+import org.marburgermoschee.schoolmanagement.mappers.ClassMapper;
 import org.marburgermoschee.schoolmanagement.mappers.PaymentMapper;
 import org.marburgermoschee.schoolmanagement.mappers.StudentMapper;
 import org.marburgermoschee.schoolmanagement.repositories.ParentRepository;
@@ -28,6 +30,8 @@ public class StudentController {
     private final ParentRepository parentRepository;
     private final AttendanceMapper attendanceMapper;
     private final PaymentMapper paymentsMapper;
+    private final ClassMapper classMapper;
+
     @PostMapping
     public StudentDto register(@Valid @RequestBody RegisterStudentRequest request) {
         Student student = studentMapper.toEntity(request);
@@ -71,6 +75,13 @@ public class StudentController {
         Student student = studentRepository.findById(id).orElseThrow(StudentNotFoundException::new);
         Set<Payment> payments = student.getPayments();
         return payments.stream().map(paymentsMapper::toDto).toList();
+    }
+
+    @GetMapping("/{id}/classes")
+    public List<ClassDto> getEnrolledClasses(@PathVariable Integer id){
+        Student student = studentRepository.findById(id).orElseThrow(StudentNotFoundException::new);
+        Set<Class> classes = student.getClasses();
+        return classes.stream().map(classMapper::toDto).toList();
     }
     @PutMapping("/{id}")
     public StudentDto updateStudent(
