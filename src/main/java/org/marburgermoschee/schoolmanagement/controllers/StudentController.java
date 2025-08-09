@@ -4,8 +4,11 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.marburgermoschee.schoolmanagement.dtos.*;
 import org.marburgermoschee.schoolmanagement.services.StudentService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -15,8 +18,12 @@ public class StudentController {
     private final StudentService studentService;
 
     @PostMapping
-    public StudentDto register(@Valid @RequestBody RegisterStudentRequest request) {
-       return studentService.register(request);
+    public ResponseEntity<StudentDto> register(
+            @Valid @RequestBody RegisterStudentRequest request,
+            UriComponentsBuilder builder) {
+       StudentDto studentdto =  studentService.register(request);
+       URI uri = builder.path("/students/{studentId}").buildAndExpand(studentdto.getId()).toUri();
+       return ResponseEntity.created(uri).body(studentdto);
     }
     @PostMapping("/{id}/payments")
     public void recordNewPayment(

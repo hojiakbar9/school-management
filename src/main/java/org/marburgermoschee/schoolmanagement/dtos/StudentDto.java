@@ -3,8 +3,6 @@ package org.marburgermoschee.schoolmanagement.dtos;
 import lombok.Data;
 import org.marburgermoschee.schoolmanagement.entities.GenderType;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.time.LocalDate;
 @Data
 public class StudentDto {
@@ -13,7 +11,7 @@ public class StudentDto {
     private String lastName;
     private GenderType gender;
     private LocalDate dateOfBirth;
-    private ParentDto parentDto;
+    private UserDto parent;
     private Boolean active;
 
 }

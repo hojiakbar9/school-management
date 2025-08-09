@@ -9,7 +9,7 @@ import org.marburgermoschee.schoolmanagement.entities.Student;
 
 @Mapper(componentModel = "spring", uses = {ParentMapper.class, AttendanceMapper.class})
 public interface StudentMapper {
-    @Mapping(source = "parent", target = "parentDto")
+    @Mapping(source = "parent", target = "parent")
     StudentDto toDto(Student student);
     Student toEntity(RegisterStudentRequest request);
     Student update(RegisterStudentRequest request, @MappingTarget Student student);

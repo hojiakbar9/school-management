@@ -28,7 +28,7 @@ public class StudentService {
 
     public StudentDto register(RegisterStudentRequest request){
         Student student = studentMapper.toEntity(request);
-        Parent parent = parentRepository.findById(request.getParentId())
+        Parent parent = parentRepository.getParent(request.getParentId())
                 .orElseThrow(() -> new EntityNotFoundException("Parent not found"));
         student.setParent(parent);
         studentRepository.save(student);
