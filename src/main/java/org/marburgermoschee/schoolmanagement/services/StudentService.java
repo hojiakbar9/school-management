@@ -65,13 +65,12 @@ public class StudentService {
         Set<Attendance> attendances = student.getAttendances();
         return attendances.stream().map(attendanceMapper::toDto).toList();
     }
-    public StudentDto updateStudent(Integer id, RegisterStudentRequest request){
+    public StudentDto updateStudent(Integer id, UpdateStudentRequest request){
         Student student = studentRepository.getStudentWithParent(id)
                 .orElseThrow(() -> new EntityNotFoundException("Student not found"));
-        var parent =  parentRepository.findById(request.getParentId())
-                .orElseThrow(() -> new EntityNotFoundException("Parent not found"));
+
         Student updated = studentMapper.update(request, student);
-        updated.setParent(parent);
+        updated.setParent(student.getParent());
         return studentMapper.toDto(studentRepository.save(updated));
     }
     public List<PaymentDto> getAllPayments(Integer id){

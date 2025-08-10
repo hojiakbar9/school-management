@@ -11,7 +11,7 @@ public class StudentDto {
     private String lastName;
     private GenderType gender;
     private LocalDate dateOfBirth;
-    private UserDto parent;
     private Boolean active;
+    private ParentDto parent;
 
 }

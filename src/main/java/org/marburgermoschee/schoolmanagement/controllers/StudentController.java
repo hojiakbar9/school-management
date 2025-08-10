@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.marburgermoschee.schoolmanagement.dtos.*;
 import org.marburgermoschee.schoolmanagement.services.StudentService;
+import org.marburgermoschee.schoolmanagement.services.UpdateStudentRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -61,7 +62,7 @@ public class StudentController {
     }
     @PutMapping("/{id}")
     public StudentDto updateStudent(
-            @Valid @RequestBody RegisterStudentRequest request,
+            @Valid @RequestBody UpdateStudentRequest request,
             @PathVariable Integer id) {
         return studentService.updateStudent(id, request);
     }
