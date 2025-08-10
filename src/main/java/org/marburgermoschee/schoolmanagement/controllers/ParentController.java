@@ -13,8 +13,11 @@ import org.marburgermoschee.schoolmanagement.exceptions.EntityNotFoundException;
 import org.marburgermoschee.schoolmanagement.mappers.ParentMapper;
 import org.marburgermoschee.schoolmanagement.repositories.ParentRepository;
 import org.marburgermoschee.schoolmanagement.services.PasswordGenerator;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -40,8 +43,10 @@ public class ParentController {
 
     @PostMapping
     @Transactional
-    public void registerParent(
-            @Valid @RequestBody RegisterParentRequest registerParentRequest){
+    public ResponseEntity<UserDto> registerParent(
+            @Valid @RequestBody RegisterParentRequest registerParentRequest,
+            UriComponentsBuilder builder
+    ){
         if (userRepository.existsUserByEmail(registerParentRequest.getEmail()))
             throw new DuplicateEmailException();
         User user = parentMapper.register(registerParentRequest);
@@ -52,5 +57,9 @@ public class ParentController {
         Parent parent = new Parent();
         parent.setUser(user);
         parentRepository.save(parent);
+
+        UserDto parentDto = parentMapper.toDto(parent);
+        URI uri = builder.path("/parents/{id}").buildAndExpand(parentDto.getId()).toUri();
+        return ResponseEntity.created(uri).body(parentDto);
     }
 }
