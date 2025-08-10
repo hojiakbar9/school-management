@@ -50,7 +50,7 @@ public class ParentController {
     ){
         if (userRepository.existsUserByEmail(registerParentRequest.getEmail()))
             throw new DuplicateEmailException();
-        User user = userMapper.register(registerParentRequest);
+        User user = userMapper.registerParent(registerParentRequest);
         user.setPassword(passwordGenerator.generatePassword());
         user.setRole(Role.PARENT);
         userRepository.save(user);
@@ -71,7 +71,7 @@ public class ParentController {
     ){
         Parent parent = parentRepository.getParent(id).orElseThrow(
                 () -> new EntityNotFoundException("Parent not found"));
-        User updated = userMapper.update(request, parent.getUser());
+        User updated = userMapper.updateParent(request, parent.getUser());
         updated.setEmail(parent.getUser().getEmail());
         updated.setPassword(parent.getUser().getPassword());
         userRepository.save(updated);
