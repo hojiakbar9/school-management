@@ -5,6 +5,7 @@ import org.mapstruct.Mapping;
 import org.marburgermoschee.schoolmanagement.dtos.UserDto;
 import org.marburgermoschee.schoolmanagement.dtos.RegisterParentRequest;
 import org.marburgermoschee.schoolmanagement.entities.Parent;
+import org.marburgermoschee.schoolmanagement.entities.User;
 
 @Mapper(componentModel = "spring")
 public interface ParentMapper {
@@ -13,5 +14,5 @@ public interface ParentMapper {
     @Mapping(source = "user.phone", target = "phone")
     UserDto toDto(Parent entity);
 
-    UserDto register(RegisterParentRequest request);
+    User register(RegisterParentRequest request);
 }

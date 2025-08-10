@@ -3,12 +3,14 @@ package org.marburgermoschee.schoolmanagement.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.Instant;
 
 @Getter
 @Setter
 @Entity
+@ToString
 @Table(name = "users")
 public class User {
     @Id
@@ -31,9 +33,9 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Lob
     @Column(name = "role")
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Column(name = "created_at", insertable = false, updatable = false)
     private Instant createdAt;
