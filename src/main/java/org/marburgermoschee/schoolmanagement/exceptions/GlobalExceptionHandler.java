@@ -34,10 +34,9 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.badRequest().body(errors);
     }
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorDto> handleOtherExceptions(Exception ex) {
-        return ResponseEntity.status(
-                HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ErrorDto(ex.getMessage()));
+    @ExceptionHandler(DuplicateEmailException.class)
+    public ResponseEntity<ErrorDto> handleDuplicateEmail() {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new ErrorDto("Email already exists"));
     }
 }
