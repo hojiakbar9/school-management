@@ -3,6 +3,7 @@ package org.marburgermoschee.schoolmanagement.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.marburgermoschee.schoolmanagement.exceptions.DuplicateEntryException;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -39,4 +40,9 @@ public class Class {
             inverseJoinColumns = @JoinColumn(name = "teacher_id"))
     private Set<Teacher> teachers = new LinkedHashSet<>();
 
+    public void addTeacher(Teacher teacher) {
+        if(teachers.contains(teacher))
+            throw new DuplicateEntryException("Teacher already assigned to the class");
+        teachers.add(teacher);
+    }
 }

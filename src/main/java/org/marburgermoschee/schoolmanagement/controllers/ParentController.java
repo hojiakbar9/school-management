@@ -9,7 +9,7 @@ import org.marburgermoschee.schoolmanagement.dtos.RegisterParentRequest;
 import org.marburgermoschee.schoolmanagement.entities.Parent;
 import org.marburgermoschee.schoolmanagement.entities.Role;
 import org.marburgermoschee.schoolmanagement.entities.User;
-import org.marburgermoschee.schoolmanagement.exceptions.DuplicateEmailException;
+import org.marburgermoschee.schoolmanagement.exceptions.DuplicateEntryException;
 import org.marburgermoschee.schoolmanagement.exceptions.EntityNotFoundException;
 import org.marburgermoschee.schoolmanagement.mappers.UserMapper;
 import org.marburgermoschee.schoolmanagement.repositories.ParentRepository;
@@ -49,7 +49,7 @@ public class ParentController {
             UriComponentsBuilder builder
     ){
         if (userRepository.existsUserByEmail(registerParentRequest.getEmail()))
-            throw new DuplicateEmailException();
+            throw new DuplicateEntryException("Email already exists");
         User user = userMapper.registerParent(registerParentRequest);
         user.setPassword(passwordGenerator.generatePassword());
         user.setRole(Role.PARENT);
