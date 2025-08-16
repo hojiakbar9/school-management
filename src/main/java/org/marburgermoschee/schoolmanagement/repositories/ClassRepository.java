@@ -14,4 +14,8 @@ public interface ClassRepository extends JpaRepository<Class, Integer> {
     @EntityGraph(attributePaths = "teachers")
     @Query("SELECT c FROM Class c WHERE c.id = :id")
     Optional<Class> getClassWithTeachers(@Param("id") Integer id);
+
+    @EntityGraph(attributePaths ={"teachers", "teachers.user"})
+    @Query("SELECT c FROM Class c")
+    List<Class> getAllWithTeachers();
 }
