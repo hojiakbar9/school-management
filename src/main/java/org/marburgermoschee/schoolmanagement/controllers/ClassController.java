@@ -2,11 +2,10 @@ package org.marburgermoschee.schoolmanagement.controllers;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.marburgermoschee.schoolmanagement.dtos.ClassDto;
-import org.marburgermoschee.schoolmanagement.dtos.ClassTeacherDto;
-import org.marburgermoschee.schoolmanagement.dtos.ClassWithTeachersDto;
-import org.marburgermoschee.schoolmanagement.dtos.RegisterNewClassRequest;
+import org.marburgermoschee.schoolmanagement.dtos.*;
 import org.marburgermoschee.schoolmanagement.entities.Class;
+import org.marburgermoschee.schoolmanagement.entities.Student;
+import org.marburgermoschee.schoolmanagement.exceptions.EntityNotFoundException;
 import org.marburgermoschee.schoolmanagement.mappers.ClassMapper;
 import org.marburgermoschee.schoolmanagement.repositories.ClassRepository;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @AllArgsConstructor
@@ -40,16 +40,24 @@ import java.util.List;
     public List<ClassWithTeachersDto> getClassWithTeachers(){
        List<Class> classes =  classRepository.getAllWithTeachers();
        return classes.stream()
-               .map(cl -> {
-                var dto =   new ClassWithTeachersDto();
-                dto.setId(cl.getId());
-                dto.setType(cl.getType());
-                dto.setTeachers(
-                        cl.getTeachers().stream()
-                                .map(teacher -> new ClassTeacherDto(teacher.getUser().getFirstName())).toList());
-                return dto;
-               })
+               .map(classMapper::toClassWithTeachersDto)
                .toList();
 
     }
+    @GetMapping("/{id}")
+    public ClassWithTeachersDto getClassWithTeachers(@PathVariable Integer id){
+        Class cl = classRepository.getClassWithTeachers(id)
+                .orElseThrow(() -> new EntityNotFoundException("Class not found"));
+        return classMapper.toClassWithTeachersDto(cl);
+    }
+    @GetMapping("/{id}/students")
+    public List<ClassStudentDto> getClassStudents(@PathVariable Integer id){
+        Class cl = classRepository.getClassWithStudents(id)
+                .orElseThrow(() -> new EntityNotFoundException("Class not found"));
+
+        Set<Student> students = cl.getStudents();
+        return students.stream().map(classMapper::toClassStudentDto).toList();
+    }
+
+
 }
