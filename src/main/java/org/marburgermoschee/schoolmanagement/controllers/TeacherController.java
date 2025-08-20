@@ -13,6 +13,8 @@ import org.marburgermoschee.schoolmanagement.exceptions.EntityNotFoundException;
 import org.marburgermoschee.schoolmanagement.mappers.ClassMapper;
 import org.marburgermoschee.schoolmanagement.mappers.UserMapper;
 import org.marburgermoschee.schoolmanagement.repositories.ClassRepository;
+import org.marburgermoschee.schoolmanagement.repositories.TeacherRepository;
+import org.marburgermoschee.schoolmanagement.repositories.UserRepository;
 import org.marburgermoschee.schoolmanagement.services.PasswordGenerator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

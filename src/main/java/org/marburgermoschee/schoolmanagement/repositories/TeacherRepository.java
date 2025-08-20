@@ -1,4 +1,4 @@
-package org.marburgermoschee.schoolmanagement.controllers;
+package org.marburgermoschee.schoolmanagement.repositories;
 
 import org.marburgermoschee.schoolmanagement.entities.Teacher;
 import org.springframework.data.jpa.repository.EntityGraph;

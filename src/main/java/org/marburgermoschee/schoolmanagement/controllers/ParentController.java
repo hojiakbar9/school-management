@@ -13,6 +13,7 @@ import org.marburgermoschee.schoolmanagement.exceptions.DuplicateEntryException;
 import org.marburgermoschee.schoolmanagement.exceptions.EntityNotFoundException;
 import org.marburgermoschee.schoolmanagement.mappers.UserMapper;
 import org.marburgermoschee.schoolmanagement.repositories.ParentRepository;
+import org.marburgermoschee.schoolmanagement.repositories.UserRepository;
 import org.marburgermoschee.schoolmanagement.services.PasswordGenerator;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

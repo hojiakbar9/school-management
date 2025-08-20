@@ -25,7 +25,7 @@ public class Class {
     @Column(name = "level")
     private String level;
 
-    @OneToMany(mappedBy = "classField")
+    @OneToMany(mappedBy = "classField", cascade = {CascadeType.PERSIST,  CascadeType.MERGE})
     private Set<Lesson> lessons = new LinkedHashSet<>();
 
     @ManyToMany

@@ -22,7 +22,7 @@ public class Lesson {
     @JoinColumn(name = "class_id")
     private Class classField;
 
-    @Column(name = "date", insertable = false, updatable = false)
+    @Column(name = "date")
     private LocalDate date;
 
     @Column(name = "topic")
