@@ -12,7 +12,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(name = "attendances")
 public class Attendance {
     @EmbeddedId
-    private AttendanceId id;
+    private AttendanceId id = new AttendanceId();
 
     @MapsId("lessonId")
     @ManyToOne
