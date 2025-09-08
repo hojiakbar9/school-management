@@ -30,7 +30,6 @@ public class LessonController {
                 findById(request.getStudentId()).orElseThrow(() -> new EntityNotFoundException("student does not exist"));
 
 
-
         Attendance attendance = new Attendance();
         attendance.setLesson(lesson);
         attendance.setStudent(student);
