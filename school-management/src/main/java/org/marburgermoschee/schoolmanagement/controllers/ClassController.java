@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("classes")
+@RequestMapping("/classes")
     public class ClassController {
 
     private final ClassMapper classMapper;

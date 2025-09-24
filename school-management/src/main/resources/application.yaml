@@ -10,3 +10,6 @@ spring:
       accept-empty-string-as-null-object: true
   jpa:
     show-sql: true
+  mvc:
+    servlet:
+      path: /api
