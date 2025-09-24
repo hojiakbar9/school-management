@@ -1,3 +1,4 @@
+import path from "path";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
@@ -9,6 +10,11 @@ export default defineConfig({
     proxy: {
       // Proxy all requests starting with /api to your backend
       "/api": "http://localhost:8080",
+    },
+  },
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
     },
   },
 });
