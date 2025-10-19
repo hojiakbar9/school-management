@@ -1,26 +1,62 @@
-import { Routes, Route, Link } from "react-router-dom";
-import StudentsPage from "./pages/StudentsPage";
-import TeachersPage from "./pages/TeachersPage"; // You'll create this later
-import HomePage from "./pages/HomePage"; // You'll create this later
-import { Button } from "@/components/ui/button";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import AppSidebar from "./components/AppSidebar";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+
+import { Separator } from "@radix-ui/react-separator";
+import { ThemeProvider } from "./components/theme-provider";
+import { ModeToggle } from "./components/mode-toggle";
+import StudentManagement from "./components/StudentManagement";
+
 function App() {
   return (
-    <div>
-      <nav>
-        <Link to="/">Home</Link> | <Link to="/students">Students</Link> |{" "}
-        <Link to="/teachers">Teachers</Link>
-      </nav>
-      <main>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/students" element={<StudentsPage />} />
-          <Route path="/teachers" element={<TeachersPage />} />
-        </Routes>
-      </main>
-      <div className="flex min-h-svh flex-col items-center justify-center">
-        <Button>Click me</Button>
-      </div>
-    </div>
+    <ThemeProvider>
+      <SidebarProvider>
+        <AppSidebar />
+        <SidebarInset>
+          <header className="flex h-16 shrink-0 items-center justify-between px-4 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+            {/* Left side: sidebar trigger + breadcrumb */}
+            <div className="flex items-center gap-2">
+              <SidebarTrigger className="-ml-1" />
+              <Separator
+                orientation="vertical"
+                className="mr-2 data-[orientation=vertical]:h-4"
+              />
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem className="hidden md:block">
+                    <BreadcrumbLink href="#">Applikation</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator className="hidden md:block" />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage>Dashboard</BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+            </div>
+
+            {/* Right side: mode toggle */}
+            <ModeToggle />
+          </header>
+
+          <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+            <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min">
+              <StudentManagement />
+            </div>
+          </div>
+        </SidebarInset>
+      </SidebarProvider>
+    </ThemeProvider>
   );
 }
 
